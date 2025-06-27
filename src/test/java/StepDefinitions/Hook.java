@@ -4,7 +4,6 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -62,6 +61,10 @@ public class Hook {
              driver = null;
          }  */
         deleteUser("testuser67@example.com","Test123!");
+        deleteUser("anna.kiss1@example.com","Anna123!");
+        deleteUser("bence.nagy1@example.com","Bence321!");
+        deleteUser("eva.toth1@example.com","Eva456!");
+
      }
 
     public static WebDriver getDriver() {

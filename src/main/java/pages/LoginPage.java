@@ -1,6 +1,7 @@
 package pages;
 
 import model.User;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -34,7 +35,14 @@ public class LoginPage extends BasePage {
     }
 
     public void acceptConsent() {
-        clickOn(consentButton);
+        try {
+            WebElement consentBtn = waitUntilVisible(consentButton);
+            if (consentBtn.isDisplayed() && consentBtn.isEnabled()) {
+                clickOn(consentBtn);
+            }
+        } catch (TimeoutException e) {
+            System.out.println("Consent button not visible, continuing test.");
+        }
     }
 
     public void userNameAndEmail(User user) {

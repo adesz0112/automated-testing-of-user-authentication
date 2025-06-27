@@ -55,7 +55,7 @@ public class RegistrationPage extends BasePage {
     }
 
     public void selectTitle(String title) {
-        String genderId = title.equalsIgnoreCase("Mr") ? "id_gender1" : "id_gender2";
+        String genderId = title.equalsIgnoreCase("male") ? "id_gender1" : "id_gender2";
         WebElement genderRadio = driver.findElement(By.id(genderId));
         clickOn(genderRadio);
     }
