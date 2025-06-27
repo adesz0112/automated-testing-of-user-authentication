@@ -1,6 +1,8 @@
 package pages;
 
+import model.User;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -37,6 +39,10 @@ public class RegistrationPage extends BasePage {
     private WebElement zipcodeInput;
     @FindBy(id = "mobile_number")
     private WebElement mobileNumberInput;
+    @FindBy(css = "button[data-qa='create-account']")
+    private WebElement createAccountButton;
+    @FindBy(xpath = "//b[text()='Account Created!']")
+    private WebElement accountCreatedMessage;
 
 
 
@@ -93,7 +99,7 @@ public class RegistrationPage extends BasePage {
         typeInto(address2Input, address2);
     }
 
-    public void enterCountry(String country) {
+    public void selectCountry(String country) {
         Select select = new Select(countryDropDown);
         select.selectByValue(country);
     }
@@ -113,4 +119,42 @@ public class RegistrationPage extends BasePage {
     public void enterMobileNumber(String mobileNumber) {
         typeInto(mobileNumberInput, mobileNumber);
     }
+
+    public void scrollToElement(WebElement element) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        jsExecutor.executeScript("arguments[0].scrollIntoView(true);", element);
+    }
+
+
+    public void clickOnCreateAccount() {
+        scrollToElement(createAccountButton);
+        clickOn(createAccountButton);
+    }
+
+    public boolean isAccountCreated() {
+        return accountCreatedMessage.isDisplayed();
+    }
+
+
+    public void fillPersonalInfo(User user) {
+        selectTitle(user.getTitle());
+        enterPassword(user.getPassword());
+        selectDayByValue(user.getDay());
+        selectMonthByValue(user.getMonth());
+        selectYearByValue(user.getYear());
+    }
+
+    public void fillAddressInfo(User user) {
+        enterFirstName(user.getFirstName());
+        enterLastName(user.getLastName());
+        enterCompany(user.getCompany());
+        enterAddress1(user.getAddress1());
+        enterAddress2(user.getAddress2());
+        selectCountry(user.getCountry());
+        enterState(user.getState());
+        enterCity(user.getCity());
+        enterZipcode(user.getZipcode());
+        enterMobileNumber(user.getMobileNumber());
+    }
+
 }

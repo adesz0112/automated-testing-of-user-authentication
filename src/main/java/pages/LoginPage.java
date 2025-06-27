@@ -1,8 +1,10 @@
 package pages;
 
+import model.User;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class LoginPage extends BasePage {
 
@@ -12,6 +14,8 @@ public class LoginPage extends BasePage {
     private WebElement emailInput;
     @FindBy(css = "button[data-qa='signup-button']")
     private WebElement signUpButton;
+    @FindBy(xpath = "//p[contains(@class, 'fc-button-label') and text()='Beleegyezés']")
+    private WebElement consentButton;
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -27,5 +31,14 @@ public class LoginPage extends BasePage {
 
     public void clickSignUpButton() {
         clickOn(signUpButton);
+    }
+
+    public void acceptConsent() {
+        clickOn(consentButton);
+    }
+
+    public void userNameAndEmail(User user) {
+        enterNameForSignUp(user.getName());
+        enterEmailForSignUp(user.getEmail());
     }
 }
