@@ -1,16 +1,19 @@
 package StepDefinitions;
 
 import Utils.CsvReader;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import model.User;
 import org.openqa.selenium.WebDriver;
+import pages.DashboardPage;
 import pages.LoginPage;
 import pages.RegistrationPage;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RegistrationStep {
@@ -18,12 +21,14 @@ public class RegistrationStep {
     private WebDriver driver;
     private LoginPage loginPage;
     private RegistrationPage registrationPage;
+    private DashboardPage dashboardPage;
     private User user;
 
     public RegistrationStep() {
         this.driver = Hook.getDriver();
         this.loginPage = new LoginPage(driver);
         this.registrationPage = new RegistrationPage(driver);
+        this.dashboardPage = new DashboardPage(driver);
     }
 
     @Given("I am on the registration page")
@@ -82,12 +87,37 @@ public class RegistrationStep {
         registrationPage.enterMobileNumber(phoneNumber);
     }
 
-    @When("I click the Sign Up button")
-    public void i_click_the_sign_up_button() {
+    @Given("I log out")
+    public void i_Log_Out() {
+        dashboardPage.clickLogout();
+    }
+
+    @When("I click the create account button")
+    public void i_click_the_create_account_button() {
         registrationPage.clickOnCreateAccount();
     }
+
+    @When("I click the Sign Up button")
+    public void i_click_the_sign_up_button() {
+        loginPage.clickSignUpButton();
+    }
+
     @Then("I should be registered to the page")
     public void i_should_be_registered_to_the_page() {
         assertTrue(registrationPage.isAccountCreated());
+        Hook.registeredUsers.add(user);
     }
+
+    @Then("I should remain on the registration page")
+    public void i_should_remain_on_the_registration_page() {
+        String currentURL = driver.getCurrentUrl();
+        assertEquals("https://automationexercise.com/login",currentURL);
+    }
+
+    @Then("I should see an error that the email address is already registered")
+    public void i_should_see_an_error_that_the_email_address_is_already_registered() {
+        assertTrue(loginPage.isEmailAlreadyExistsMessageVisible());
+    }
+
+
 }

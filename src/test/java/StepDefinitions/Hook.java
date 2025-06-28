@@ -2,6 +2,7 @@ package StepDefinitions;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import model.User;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import java.io.BufferedReader;
@@ -11,9 +12,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Hook {
     private static WebDriver driver;
+    public static List<User> registeredUsers = new ArrayList<>();
 
     @Before
     public void setUp() {
@@ -59,11 +63,16 @@ public class Hook {
        /*  if (driver != null) {
              driver.quit();
              driver = null;
-         }  */
-        deleteUser("testuser67@example.com","Test123!");
+             deleteUser("testuser67@example.com","Test123!");
         deleteUser("anna.kiss1@example.com","Anna123!");
         deleteUser("bence.nagy1@example.com","Bence321!");
         deleteUser("eva.toth1@example.com","Eva456!");
+         }  */
+
+        for (User user : Hook.registeredUsers) {
+            deleteUser(user.getEmail(), user.getPassword());
+        }
+        Hook.registeredUsers.clear();
 
      }
 

@@ -17,6 +17,8 @@ public class LoginPage extends BasePage {
     private WebElement signUpButton;
     @FindBy(xpath = "//p[contains(@class, 'fc-button-label') and text()='Beleegyezés']")
     private WebElement consentButton;
+    @FindBy(xpath = "//p[contains(text(),'Email Address already exist')]")
+    private WebElement emailAlreadyExistsMessage;
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -48,5 +50,14 @@ public class LoginPage extends BasePage {
     public void userNameAndEmail(User user) {
         enterNameForSignUp(user.getName());
         enterEmailForSignUp(user.getEmail());
+    }
+
+    public boolean isEmailAlreadyExistsMessageVisible() {
+        try {
+            waitUntilVisible(emailAlreadyExistsMessage);
+            return emailAlreadyExistsMessage.isDisplayed();
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 }
