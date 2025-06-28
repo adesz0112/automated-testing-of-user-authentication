@@ -1,10 +1,7 @@
 package pages;
 
 import model.User;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
@@ -45,13 +42,8 @@ public class RegistrationPage extends BasePage {
     private WebElement accountCreatedMessage;
 
 
-
     public RegistrationPage(WebDriver driver) {
         super(driver);
-    }
-
-    public void selectTitleMr() {
-        clickOn(mrRadioButton);
     }
 
     public void selectTitle(String title) {
@@ -125,16 +117,18 @@ public class RegistrationPage extends BasePage {
         jsExecutor.executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
-
     public void clickOnCreateAccount() {
         scrollToElement(createAccountButton);
         clickOn(createAccountButton);
     }
 
     public boolean isAccountCreated() {
-        return accountCreatedMessage.isDisplayed();
+        try {
+            return accountCreatedMessage.isDisplayed();
+        } catch (NoSuchElementException | StaleElementReferenceException e) {
+            return false;
+        }
     }
-
 
     public void fillPersonalInfo(User user) {
         selectTitle(user.getTitle());

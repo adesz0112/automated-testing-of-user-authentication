@@ -59,22 +59,17 @@ public class Hook {
     }
 
     @After
-     public void tearDown() throws IOException {
+    public void tearDown() throws IOException {
        /*  if (driver != null) {
              driver.quit();
              driver = null;
-             deleteUser("testuser67@example.com","Test123!");
-        deleteUser("anna.kiss1@example.com","Anna123!");
-        deleteUser("bence.nagy1@example.com","Bence321!");
-        deleteUser("eva.toth1@example.com","Eva456!");
-         }  */
+             */
 
         for (User user : Hook.registeredUsers) {
             deleteUser(user.getEmail(), user.getPassword());
         }
         Hook.registeredUsers.clear();
-
-     }
+    }
 
     public static WebDriver getDriver() {
         return driver;
