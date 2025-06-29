@@ -1,6 +1,7 @@
 package pages;
 
 import model.User;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,6 +19,14 @@ public class LoginPage extends BasePage {
     private WebElement consentButton;
     @FindBy(xpath = "//p[contains(text(),'Email Address already exist')]")
     private WebElement emailAlreadyExistsMessage;
+    @FindBy(css = "input[data-qa='login-email']")
+    private WebElement loginEmailInput;
+    @FindBy(css = "input[data-qa='login-password']")
+    private WebElement loginPasswordInput;
+    @FindBy(css = "button[data-qa='login-button']")
+    private WebElement loginButton;
+    @FindBy(xpath = "//a[contains(text(), 'Logged in as')]")
+    private WebElement loggedInAsText;
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -56,6 +65,27 @@ public class LoginPage extends BasePage {
             waitUntilVisible(emailAlreadyExistsMessage);
             return emailAlreadyExistsMessage.isDisplayed();
         } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    public void enterEmailForLogin(String email) {
+        typeInto(loginEmailInput, email);
+    }
+
+    public void enterPasswordForLogin(String password) {
+        typeInto(loginPasswordInput, password);
+    }
+
+    public void clickLoginButton() {
+        clickOn(loginButton);
+    }
+
+    public boolean isUserLoggedIn() {
+        try {
+            waitUntilVisible(loggedInAsText);
+            return loggedInAsText.isDisplayed();
+        } catch (NoSuchElementException e) {
             return false;
         }
     }

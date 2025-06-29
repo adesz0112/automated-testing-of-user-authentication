@@ -49,3 +49,14 @@ Feature: User Registration
     And I enter name "Test User" and email "testuser67@example.com"
     When I click the Sign Up button
     Then I should see an error that the email address is already registered
+
+  Scenario: Successful login after registration
+    Given I am on the registration page
+    And I register a valid user
+    When I click the create account button
+    Then I should be registered to the page
+    Given I am on the registration page
+    And I log out
+    And I log in with the same credentials
+    Then I should be redirected to the dashboard
+
