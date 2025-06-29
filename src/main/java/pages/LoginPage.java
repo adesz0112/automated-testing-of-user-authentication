@@ -27,6 +27,8 @@ public class LoginPage extends BasePage {
     private WebElement loginButton;
     @FindBy(xpath = "//a[contains(text(), 'Logged in as')]")
     private WebElement loggedInAsText;
+    @FindBy(xpath = "//p[contains(text(),'Your email or password is incorrect')]")
+    private WebElement loginErrorMessage;
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -85,6 +87,14 @@ public class LoginPage extends BasePage {
         try {
             waitUntilVisible(loggedInAsText);
             return loggedInAsText.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    public boolean isLoginErrorVisible() {
+        try {
+            return loginErrorMessage.isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
         }

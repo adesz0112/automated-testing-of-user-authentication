@@ -1,7 +1,5 @@
 package StepDefinitions;
 
-import Utils.CsvReader;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import model.User;
@@ -9,9 +7,6 @@ import org.openqa.selenium.WebDriver;
 import pages.DashboardPage;
 import pages.LoginPage;
 import pages.RegistrationPage;
-
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LoginStep {
@@ -40,8 +35,22 @@ public class LoginStep {
         loginPage.enterPasswordForLogin(user.getPassword());
         loginPage.clickLoginButton();
     }
+
+    @When("I try to log in with the wrong password")
+    public void i_try_to_log_in_with_the_wrong_password() {
+        User user = Hook.registeredUsers.get(Hook.registeredUsers.size() - 1);
+        loginPage.enterEmailForLogin(user.getEmail());
+        loginPage.enterPasswordForLogin("wrongPassword");
+        loginPage.clickLoginButton();
+    }
+
     @Then("I should be redirected to the dashboard")
     public void i_should_be_redirected_to_the_dashboard() {
         assertTrue(loginPage.isUserLoggedIn());
+    }
+
+    @Then("I should get an error message about the wrong password")
+    public void i_should_get_an_error_message_about_the_wrong_password() {
+        assertTrue(loginPage.isLoginErrorVisible());
     }
 }
