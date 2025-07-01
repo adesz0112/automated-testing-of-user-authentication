@@ -109,7 +109,8 @@ user-auth-tests/
 │       │   │   ├── LoginStep.java
 │       │   │   └── RegistrationStep.java
 │       │   ├── Utils/
-│       │   │   └── CsvReader.java
+│       │   │   │── CsvReader.java
+│       │   │   └── DriverManager
 │       │   └── TestRunnerTest.java
 │       └── resources/
 │           ├── features/
