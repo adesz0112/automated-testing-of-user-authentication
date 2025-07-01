@@ -20,11 +20,13 @@ public class User {
     private String zipcode;
     private String mobileNumber;
 
+    public String getName() {
+        return name;
+    }
 
-    public String getName() { return name; }
-
-
-    public String getEmail() { return email; }
+    public String getEmail() {
+        return email;
+    }
 
     public String getTitle() {
         return title;
@@ -85,7 +87,6 @@ public class User {
     public String getMobileNumber() {
         return mobileNumber;
     }
-
 
     public void setName(String name) {
         this.name = name;

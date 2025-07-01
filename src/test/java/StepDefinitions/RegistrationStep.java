@@ -20,6 +20,7 @@ public class RegistrationStep {
     private RegistrationPage registrationPage;
     private DashboardPage dashboardPage;
     private User user;
+    private final String url = "https://automationexercise.com/login";
 
     public RegistrationStep() {
         this.driver = Hook.getDriver();
@@ -30,7 +31,7 @@ public class RegistrationStep {
 
     @Given("I am on the registration page")
     public void i_am_on_the_registration_page() {
-        driver.get("https://automationexercise.com/login");
+        driver.get(url);
         loginPage.acceptConsent();
 
     }
