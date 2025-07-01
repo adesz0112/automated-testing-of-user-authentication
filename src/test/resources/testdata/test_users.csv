@@ -1,2 +1,5 @@
 name,email,password,gender,day,month,year,firstName,lastName,company,address1,address2,country,state,city,zipcode,phone
-Test User,testuser68@example.com,Test123!,male,15,5,1995,FirstName,LastName,Codecool,address1,address2,India,state,city,zipcode,0000005555
+Test User,testuser69@example.com,Test123!,male,15,5,1995,FirstName,LastName,Codecool,address1,address2,India,state,city,zipcode,0000005555
+Laura Smith,laura.smith72@example.com,Laura321!,female,8,3,1990,Laura,Smith,GlobalTech,123 Baker Street,Apt 4,United States,California,San Francisco,94107,4155551234
+Mark Johnson,mark.johnson88@example.com,Mark987!,male,22,10,1985,Mark,Johnson,NextGen Solutions,456 Queen’s Road,Suite 8,Canada,England,London,SW1A 1AA,02079460000
+Csilla,csilla.szabo12@example.com,Csilla456!,female,22,9,1992,Csilla,Szabó,DevWorks,Petőfi u.,3. em,Israel,Bavaria,Munich,80331,0615123456

@@ -1,6 +1,8 @@
 package StepDefinitions;
 
 import Utils.CsvReader;
+import Utils.DriverManager;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -21,9 +23,10 @@ public class RegistrationStep {
     private DashboardPage dashboardPage;
     private User user;
     private final String url = "https://automationexercise.com/login";
+    private final String csv = "src/test/resources/testdata/test_users.csv";
 
     public RegistrationStep() {
-        this.driver = Hook.getDriver();
+        this.driver = DriverManager.getDriver();
         this.loginPage = new LoginPage(driver);
         this.registrationPage = new RegistrationPage(driver);
         this.dashboardPage = new DashboardPage(driver);
@@ -33,17 +36,27 @@ public class RegistrationStep {
     public void i_am_on_the_registration_page() {
         driver.get(url);
         loginPage.acceptConsent();
-
     }
 
     @Given("I register a valid user")
     public void i_register_a_valid_user() {
-        List<User> users = CsvReader.readUsersFromCsv("src/test/resources/testdata/test_users.csv");
-        user = users.get(0);
+        List<User> users = CsvReader.readUsersFromCsv(csv);
+        int index = Hook.getUserIndex();
+        user = users.get(index);
         loginPage.userNameAndEmail(user);
         loginPage.clickSignUpButton();
         registrationPage.fillPersonalInfo(user);
         registrationPage.fillAddressInfo(user);
+        Hook.incrementUserIndex();
+    }
+
+    @Given("I enter name and email")
+    public void i_enter_name_and_email() {
+        List<User> users = CsvReader.readUsersFromCsv(csv);
+        int index = Hook.getUserIndex()-1;
+        user = users.get(index);
+        loginPage.enterNameForSignUp(user.getName());
+        loginPage.enterEmailForSignUp(user.getEmail());
     }
 
     @Given("I enter name {string} and email {string}")
