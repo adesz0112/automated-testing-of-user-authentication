@@ -4,7 +4,7 @@ This project contains automated UI tests for validating **User Registration** an
 
 ---
 
-# 🧪 System Under Test (SUT)
+## 🧪 System Under Test (SUT)
 <img src="the_sut.png" alt="sut.png" width="800"/>
 
 ## ✅ Features Covered
@@ -77,7 +77,7 @@ You can run tests in multiple ways:
 
 
 
-# 📈 Test results
+## 📈 Test results
 <img src="testresults.png" alt="test_result.png" width="800"/>
 
 After running, open the HTML report at:
