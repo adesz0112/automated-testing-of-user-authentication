@@ -46,7 +46,7 @@ public class LoginStep {
 
     @Then("I should be redirected to the dashboard")
     public void i_should_be_redirected_to_the_dashboard() {
-        assertTrue(loginPage.isUserLoggedIn());
+        assertTrue(dashboardPage.isUserLoggedIn());
     }
 
     @Then("I should get an error message about the wrong password")

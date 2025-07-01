@@ -25,8 +25,7 @@ public class LoginPage extends BasePage {
     private WebElement loginPasswordInput;
     @FindBy(css = "button[data-qa='login-button']")
     private WebElement loginButton;
-    @FindBy(xpath = "//a[contains(text(), 'Logged in as')]")
-    private WebElement loggedInAsText;
+
     @FindBy(xpath = "//p[contains(text(),'Your email or password is incorrect')]")
     private WebElement loginErrorMessage;
 
@@ -83,14 +82,7 @@ public class LoginPage extends BasePage {
         clickOn(loginButton);
     }
 
-    public boolean isUserLoggedIn() {
-        try {
-            waitUntilVisible(loggedInAsText);
-            return loggedInAsText.isDisplayed();
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
+
 
     public boolean isLoginErrorVisible() {
         try {

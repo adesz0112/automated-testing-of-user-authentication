@@ -5,15 +5,15 @@ import io.cucumber.java.Before;
 import model.User;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Hook {
     private static WebDriver driver;
@@ -31,36 +31,40 @@ public class Hook {
         }
     }
 
-    public void deleteUser(String email, String password) throws IOException {
-        String urlStr = "https://automationexercise.com/api/deleteAccount";
-        URL url = new URL(urlStr);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("DELETE");
-        conn.setDoOutput(true);
-        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+    public  void deleteUser(String email, String password) {
+        try {
+            URL url = new URL("https://automationexercise.com/api/deleteAccount");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("DELETE");
+            connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
-        String urlParameters = "email=" + URLEncoder.encode(email, "UTF-8") +
-                "&password=" + URLEncoder.encode(password, "UTF-8");
+            String params = String.format("email=%s&password=%s",
+                    URLEncoder.encode(email, StandardCharsets.UTF_8),
+                    URLEncoder.encode(password, StandardCharsets.UTF_8));
 
-        try (DataOutputStream out = new DataOutputStream(conn.getOutputStream())) {
-            out.writeBytes(urlParameters);
-            out.flush();
-        }
-
-        int responseCode = conn.getResponseCode();
-        if (responseCode != 200) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-            String line;
-            StringBuilder response = new StringBuilder();
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
+            try (OutputStream os = connection.getOutputStream()) {
+                os.write(params.getBytes(StandardCharsets.UTF_8));
             }
-            reader.close();
-            throw new RuntimeException("Failed to delete account. Code: " + responseCode + ". Response: " + response);
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                System.out.println("✅ Account deleted successfully.");
+            } else {
+                String errorResponse = new BufferedReader(
+                        new InputStreamReader(connection.getErrorStream(), StandardCharsets.UTF_8))
+                        .lines()
+                        .collect(Collectors.joining("\n"));
+                throw new RuntimeException("❌ Failed to delete account. Code: " + responseCode +
+                        "\nResponse: " + errorResponse);
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException("⚠️ Error while deleting user: " + e.getMessage(), e);
         }
 
-        System.out.println("Account successfully deleted via API.");
-    }
+}
+
 
     @After
     public void tearDown() throws IOException {
@@ -70,8 +74,6 @@ public class Hook {
             }
             Hook.registeredUsers.clear();
         }
-
-        // Végül a driver bezárása, ha fut
         if (driver != null) {
             driver.quit();
             driver = null;
