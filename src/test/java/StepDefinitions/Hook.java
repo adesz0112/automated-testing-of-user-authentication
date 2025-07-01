@@ -19,6 +19,10 @@ public class Hook {
     private static WebDriver driver;
     public static List<User> registeredUsers = new ArrayList<>();
 
+    public static WebDriver getDriver() {
+        return driver;
+    }
+
     @Before
     public void setUp() {
         if (driver == null) {
@@ -60,18 +64,17 @@ public class Hook {
 
     @After
     public void tearDown() throws IOException {
-       /*  if (driver != null) {
-             driver.quit();
-             driver = null;
-             */
-
-        for (User user : Hook.registeredUsers) {
-            deleteUser(user.getEmail(), user.getPassword());
+        if (Hook.registeredUsers != null && !Hook.registeredUsers.isEmpty()) {
+            for (User user : Hook.registeredUsers) {
+                deleteUser(user.getEmail(), user.getPassword());
+            }
+            Hook.registeredUsers.clear();
         }
-        Hook.registeredUsers.clear();
-    }
 
-    public static WebDriver getDriver() {
-        return driver;
+        // Végül a driver bezárása, ha fut
+        if (driver != null) {
+            driver.quit();
+            driver = null;
+        }
     }
 }

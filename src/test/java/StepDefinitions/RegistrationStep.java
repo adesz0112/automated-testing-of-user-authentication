@@ -47,20 +47,25 @@ public class RegistrationStep {
 
     @Given("I enter name {string} and email {string}")
     public void i_enter_name_and_email(String name, String email) {
+        user = new User();
         loginPage.enterNameForSignUp(name);
         loginPage.enterEmailForSignUp(email);
         loginPage.clickSignUpButton();
+        user.setEmail(email);
     }
 
     @Given("I enter password {string} and choose gender {string}")
     public void i_enter_password_and_choose_gender(String password, String gender) {
         registrationPage.enterPassword(password);
         registrationPage.selectTitle(gender);
+        user.setPassword(password);
     }
 
     @Given("I select date of birth: day {string}, month {string}, year {string}")
     public void i_select_date_of_birth_day_month_year(String day, String month, String year) {
-
+        registrationPage.selectDayByValue(day);
+        registrationPage.selectMonthByValue(month);
+        registrationPage.selectYearByValue(year);
     }
 
     @Given("I enter firstname {string}, lastname {string}, company {string}")
