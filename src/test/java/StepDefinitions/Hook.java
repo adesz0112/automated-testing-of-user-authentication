@@ -1,5 +1,6 @@
 package StepDefinitions;
 
+import Utils.DriverManager;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import model.User;
@@ -12,26 +13,38 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Hook {
     private static WebDriver driver;
-    public static List<User> registeredUsers = new ArrayList<>();
-
+    public static List<User> registeredUsers = Collections.synchronizedList(new ArrayList<>());
+    private static int userIndex = 0;
     public static WebDriver getDriver() {
         return driver;
     }
 
-    @Before
-    public void setUp() {
-        if (driver == null) {
-            driver = new EdgeDriver();
-            driver.manage().window().maximize();
-        }
+
+    public static int getUserIndex() {
+        return userIndex;
     }
 
-    public  void deleteUser(String email, String password) {
+    public static void incrementUserIndex() {
+        userIndex++;
+    }
+
+
+
+    @Before
+    public void setUp() {
+        WebDriver driver = new EdgeDriver(); // vagy ChromeDriver, stb.
+        driver.manage().window().maximize();
+        DriverManager.setDriver(driver);
+
+    }
+
+    public void deleteUser(String email, String password) {
         try {
             URL url = new URL("https://automationexercise.com/api/deleteAccount");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -63,7 +76,7 @@ public class Hook {
             throw new RuntimeException("⚠️ Error while deleting user: " + e.getMessage(), e);
         }
 
-}
+    }
 
 
     @After
@@ -74,9 +87,8 @@ public class Hook {
             }
             Hook.registeredUsers.clear();
         }
-        if (driver != null) {
-            driver.quit();
-            driver = null;
-        }
+
+        DriverManager.quitDriver();
+
     }
 }

@@ -19,7 +19,7 @@ Feature: User Registration
     Then I should be registered to the page
 
     Examples:
-      | name  | email                   | password  | gender | day | month | year | firstName | lastName | company    | address1 | address2 | country   | state   | city      | zipcode | phone      |
+      | name  | email                    | password  | gender | day | month | year | firstName | lastName | company    | address1 | address2 | country   | state   | city      | zipcode | phone      |
       | Anna  | anna.kiss12@example.com  | Anna123!  | female | 12  | 6     | 1990 | Anna      | Kiss     | InnoTech   | Fő utca  | 2. em    | India     | Pest    | Budapest  | 1111    | 0620111222 |
       | Bence | bence.nagy12@example.com | Bence321! | male   | 5   | 3     | 1985 | Bence     | Nagy     | CodeSprint | Kossuth  | 1. ajtó  | Australia | Baranya | Pécs      | 7624    | 0630123456 |
       | Eva   | eva.toth12@example.com   | Eva456!   | female | 20  | 11    | 1993 | Eva       | Toth     | SmartLogic | Petőfi   | fszt. 4  | Canada    | Bács    | Kecskemét | 6000    | 0670123456 |
@@ -43,10 +43,9 @@ Feature: User Registration
     And I register a valid user
     When I click the create account button
     Then I should be registered to the page
-
     Given I am on the registration page
     And I log out
-    And I enter name "Test User" and email "testuser68@example.com"
+    And I enter name and email
     When I click the Sign Up button
     Then I should see an error that the email address is already registered
 
